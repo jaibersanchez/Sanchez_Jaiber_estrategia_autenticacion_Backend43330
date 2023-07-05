@@ -13,42 +13,6 @@ authRouter.get('/admin', isUser, isAdmin, (req, res) => {
   return res.send('datos clasificados');
 });
 
-authRouter.post('/auth', async(req, res) => {
-  const { email, pass } = req.body;
-  
-  const userSessionisAdmin = {
-    isAdmin: 'adminCoder@coder.com',
-    pass: 'adminCod3r123',
-  };
-  
-  let errorMessage = '';
-
-  try {
-    const user = await userService.loginUser(email);
-
-    if (email === userSessionisAdmin.email && pass === userSessionisAdmin.pass) {
-      req.session.user = {
-        email: userSessionisAdmin.email,
-        role: 'admin',
-        first_name: 'CoderAdmin',
-      };
-      res.redirect('/products'); 
-      return;
-    } else if (!user || !comparePassword(user,pass)) {
-      errorMessage = 'Invalid email or password';
-    } else {
-      
-      req.session.user = user;
-      res.redirect('/products');
-      return;
-    }
-  } catch (error) {
-    console.log(error);
-    errorMessage = 'An error occurred';
-  }
-  res.redirect(`/?error=${encodeURIComponent(errorMessage)}`);
-});
-
 authRouter.get('/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {

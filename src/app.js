@@ -70,7 +70,7 @@ app.use('/auth', authRouter);
 app.use('/api/cookies', coockieRouter);
 
 /* HTML Render Session*/
-app.use('/api/session', sessionsRouter);
+app.use('/api/sessions', sessionsRouter);
 
 /* Config Handlebars */
 app.engine('handlebars', handlebars.engine());
